@@ -172,7 +172,7 @@ function ButtonAppBar(props) {
             color="inherit"
             className={classes.flex}
           >
-           ν-KAOS
+           ν-KAOS Editor
           </Typography>
           <IconButton
             id="zoom-in"

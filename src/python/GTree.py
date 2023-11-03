@@ -4,9 +4,10 @@ import os
 from graphviz import Digraph
 
 class GNode:
-    def __init__(self, spec, note='', parent=None, children=None, aggrFlg=False, andFlag=False):
+    def __init__(self, spec, note='', lemmas=set(), parent=None, children=None, aggrFlg=False, andFlag=False):
         self.__spec = spec
         self.__note = note #脚注的なもの
+        self.__lemmas = lemmas #含まれる単語
         self.__parent = parent
         self.__id = 0 #後で変更
         if not children:
@@ -25,6 +26,9 @@ class GNode:
     
     def setNote(self, note):
         self.__note = note
+    
+    def setLemmas(self, lemmas):
+        self.__lemmas = lemmas
 
     def setP(self, parent):
         self.__parent = parent
@@ -52,6 +56,9 @@ class GNode:
     
     def getNote(self):
         return self.__note
+    
+    def getLemmas(self):
+        return self.__lemmas
 
     def getID(self):
         return self.__id
@@ -180,6 +187,7 @@ class GTree:
         self.__lastNB = self.__root
         self.__numgoal = 0
         self.__goals = dict()
+        self.__goal_lemmas = dict()
         self.__g = Digraph(format=format)
         self.__g.graph_attr['layout'] = 'dot'
         self.__g.graph_attr['rankdir'] = 'BT'
@@ -206,7 +214,7 @@ class GTree:
 
     def isFirstGoal(self):
         return self.__numgoal == 1
-    
+
     def getGoal(self, spec):
         return self.__goals.get(spec)
 
@@ -227,9 +235,23 @@ class GTree:
         self.__last = ngoal
         if type(ngoal) == NB:
             self.__lastNB = ngoal
+        
+        self.appendGoalLemmas(ngoal)
+
+    def appendGoalLemmas(self, goal):
+        print(f'>>>>>>append' + goal.getSpec().replace('\\n','') + '<<<<<<')
+        print(goal.getNote(), goal.getNote().split('.'), goal.getLemmas())
+        id = int(goal.getNote().split('.')[1])
+        self.__goal_lemmas[id] = self.getGoalLemmas(id) | goal.getLemmas()
+        print(id, self.__goal_lemmas[id])
 
     def getLastAddedGoal(self):
         return self.__last
+
+    def getGoalLemmas(self, id):
+        print(id)
+        print(self.__goal_lemmas.get(id))
+        return self.__goal_lemmas.get(id, set())
     
     def resetHistory(self):
         self.__last = self.__root

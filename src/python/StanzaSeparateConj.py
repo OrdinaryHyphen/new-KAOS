@@ -49,7 +49,7 @@ def getGoal(goal_top, words):
 		for word in depending_words:
 			goal += word['text'] + ' '
 
-		goal = goal[:-1]
+		goal = goal[:-1].replace(' - ','-').replace(' .','.')
 		goals.append(goal)
 	
 	return goals

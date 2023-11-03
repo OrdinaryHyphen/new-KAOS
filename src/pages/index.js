@@ -13,6 +13,7 @@ import HelpMenu from '../HelpMenu';
 import SettingsDialog from '../SettingsDialog';
 import OpenFromBrowserDialog from '../OpenFromBrowserDialog';
 import SaveAsToBrowserDialog from '../SaveAsToBrowserDialog';
+import DescriptionInstructionsDialog from '../DescriptionInstructionsDialog';
 import InsertPanels from '../InsertPanels';
 import FormatDrawer from '../FormatDrawer';
 import DescriptionDrawer from '../DescriptionDrawer';
@@ -628,6 +629,18 @@ class Index extends React.Component {
     });
   }
 
+  handleDescriptionInstructionsClick = () => {
+    this.setState({
+      descriptionInstructionsDialogIsOpen: true,
+    });
+  }
+
+ 	handleDescriptionInstructionsDialogClose = () => {
+    this.setState({
+      descriptionInstructionsDialogIsOpen: false,
+    });
+  }
+
   handleAboutClick = () => {
     this.setState({
       aboutDialogIsOpen: true,
@@ -1036,6 +1049,7 @@ class Index extends React.Component {
                   onDescriptionDrawerClose={this.handleGoalDescriptionDrawerClose}
                   onTextChange={this.handleGoalDescriptionChange}
                   onStartParsing={this.handleGoalDescriptionParsing}
+                  onShowInstructions={this.handleDescriptionInstructionsClick}
                   fontSize={this.state.fontSize}
                 />
               }
@@ -1129,13 +1143,18 @@ class Index extends React.Component {
             onMouseOperationsDialogClose={this.handleMouseOperationsDialogClose}
           />
         }
+        {this.state.descriptionInstructionsDialogIsOpen &&
+          <DescriptionInstructionsDialog
+            onDescriptionInstructionsDialogClose={this.handleDescriptionInstructionsDialogClose}
+          />
+        }
         {this.state.aboutDialogIsOpen &&
           <AboutDialog
             graphvizVersion={this.state.graphvizVersion}
             onAboutDialogClose={this.handleAboutDialogClose}
           />
-        }
-        {this.state.labelEditDialogIsOpen &&
+       }
+       {this.state.labelEditDialogIsOpen &&
           <LabelEditDialog
             originalLabel={this.state.originalLabel}
             onLabelEditDialogClose={this.handleLabelEditDialogClose}

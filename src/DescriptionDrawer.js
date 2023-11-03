@@ -56,6 +56,10 @@ class DescriptionDrawer extends React.Component {
    this.props.onStartParsing();
   };
 
+  showInstructions = () => {
+   this.props.onShowInstructions();
+  };
+
   render() {
     const { classes, theme } = this.props;
 
@@ -97,11 +101,15 @@ class DescriptionDrawer extends React.Component {
              />
            <Divider />
            <Toolbar>
-       <p>
-         Input goal descriptions, then press the right button.
-       </p>
+       <Button
+           color="inherit"
+           style={{flexGrow: 0.2}}
+           onClick={this.showInstructions}
+        >
+        Click here to show how to use
+        </Button>
        <div style={{flexGrow: 1}}></div>
-      <Button
+       <Button
            color="inherit"
            size="Large"
            style={{flexGrow: 0.2}}
